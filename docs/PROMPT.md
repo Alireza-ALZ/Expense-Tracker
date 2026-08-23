@@ -136,10 +136,15 @@ Implement validation rules:
 - Prevent invalid submissions.
 
 [JAVASCRIPT_REQUIREMENTS]
+
 Use clean JavaScript practices:
 
-- Organize the code into small reusable functions.
-- Build architecture in a way that can add new features easily.
+- Organize the application into small, cohesive classes and reusable functions.
+- Build the architecture in a way that can add new features easily.
+- Use classes for stateful components, services, and objects with clear responsibilities.
+- Use regular functions for simple stateless utility operations.
+- Keep responsibilities separated and avoid large classes with unrelated functionality.
+- Avoid putting all application logic into a single class or file.
 - Use:
   - const and let
   - Template literals
@@ -174,6 +179,22 @@ Generate the project using exactly these files:
 
 [ARCHITECTURE]
 The architecture must be in a way that can add new features easily in future. To apply this architecture, if need to change folder structure of project (FILE_STRUCTURE section), tell me and explain why the new file structure is better that file structure above, if I apply you can change the FILE_STRUCTURE
+
+[PROGRAMMING_PARADIGM]
+
+Use a class-based Object-Oriented Programming (OOP) architecture.
+
+Requirements:
+- Use ES6+ classes for components and services that have their own state, behavior, or lifecycle.
+- Prefer classes over constructor functions and prototype-based patterns.
+- Encapsulate related state and behavior inside appropriate classes.
+- Use private class fields/methods (`#`) where they improve encapsulation and are supported by the target browsers.
+- Keep each class focused on a single responsibility.
+- Avoid creating classes for simple stateless utility functions where a regular function is more appropriate.
+- Do not force every function or piece of logic into a class.
+- Avoid unnecessary inheritance; prefer composition when appropriate.
+- Avoid static/global mutable state whenever possible.
+- Use ES6 modules to organize classes and dependencies if the project structure is changed.
 
 [DEPLOYMENT_MODEL]
 
