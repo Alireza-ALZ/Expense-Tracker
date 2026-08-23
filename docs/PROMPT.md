@@ -141,9 +141,9 @@ Use clean JavaScript practices:
 
 - Organize the application into small, cohesive classes and reusable functions.
 - Build the architecture in a way that can add new features easily.
-- Use classes for stateful components, services, and objects with clear responsibilities.
+- Use classes for parts of the application that have their own state, behavior, or lifecycle.
 - Use regular functions for simple stateless utility operations.
-- Keep responsibilities separated and avoid large classes with unrelated functionality.
+- Keep responsibilities separated and avoid large classes with unrelated responsibilities.
 - Avoid putting all application logic into a single class or file.
 - Use:
   - const and let
@@ -185,16 +185,16 @@ The architecture must be in a way that can add new features easily in future. To
 Use a class-based Object-Oriented Programming (OOP) architecture.
 
 Requirements:
-- Use ES6+ classes for components and services that have their own state, behavior, or lifecycle.
-- Prefer classes over constructor functions and prototype-based patterns.
+- Use ES6+ classes for parts of the application that have their own state, behavior, or lifecycle.
+- Prefer ES6 classes over constructor functions and prototype-based patterns.
 - Encapsulate related state and behavior inside appropriate classes.
 - Use private class fields/methods (`#`) where they improve encapsulation and are supported by the target browsers.
 - Keep each class focused on a single responsibility.
-- Avoid creating classes for simple stateless utility functions where a regular function is more appropriate.
+- Use regular functions for simple stateless utility operations where a class would add unnecessary complexity.
 - Do not force every function or piece of logic into a class.
 - Avoid unnecessary inheritance; prefer composition when appropriate.
 - Avoid static/global mutable state whenever possible.
-- Use ES6 modules to organize classes and dependencies if the project structure is changed.
+- Organize classes and related code into separate ES6 modules when the project structure benefits from it.
 
 [DEPLOYMENT_MODEL]
 
