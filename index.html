@@ -1,327 +1,406 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" dir="ltr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Expense Tracker</title>
-    <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>"
+    />
     <!-- Supabase JS Client (loaded from CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- ================================================================== -->
     <!-- Application Header                                                  -->
     <!-- ================================================================== -->
     <header class="app-header">
-        <div class="app-header__content">
-            <div class="app-header__left">
-                <h1 class="app-header__title">
-                    <span class="app-header__logo">💰</span>
-                    Expense Tracker
-                </h1>
-            </div>
-            <div class="app-header__right">
-                <!-- User info (visible when logged in) -->
-                <div class="app-header__user hidden" id="user-info">
-                    <span class="app-header__email" id="user-email"></span>
-                    <button class="btn btn--ghost btn--sm" id="logout-btn">Logout</button>
-                </div>
-                <!-- Theme toggle -->
-                <button
-                    class="theme-toggle"
-                    id="theme-toggle"
-                    type="button"
-                    aria-label="Toggle dark mode"
-                    aria-pressed="false"
-                    title="Toggle dark mode"
-                >
-                    <span class="theme-toggle__icon theme-toggle__icon--light">☀️</span>
-                    <span class="theme-toggle__icon theme-toggle__icon--dark">🌙</span>
-                </button>
-            </div>
+      <div class="app-header__content">
+        <div class="app-header__left">
+          <h1 class="app-header__title">
+            <span class="app-header__logo">💰</span>
+            Expense Tracker
+          </h1>
         </div>
+        <div class="app-header__right">
+          <!-- User info (visible when logged in) -->
+          <div class="app-header__user hidden" id="user-info">
+            <span class="app-header__email" id="user-email"></span>
+            <button class="btn btn--ghost btn--sm" id="logout-btn">
+              Logout
+            </button>
+          </div>
+          <!-- Theme toggle -->
+          <button
+            class="theme-toggle"
+            id="theme-toggle"
+            type="button"
+            aria-label="Toggle dark mode"
+            aria-pressed="false"
+            title="Toggle dark mode"
+          >
+            <span class="theme-toggle__icon theme-toggle__icon--light">☀️</span>
+            <span class="theme-toggle__icon theme-toggle__icon--dark">🌙</span>
+          </button>
+        </div>
+      </div>
     </header>
 
     <!-- ================================================================== -->
     <!-- Authentication Section                                              -->
     <!-- ================================================================== -->
     <section class="auth-section" id="auth-section">
-        <div class="auth-container">
-            <div class="auth-card">
-                <div class="auth-card__header">
-                    <span class="auth-card__logo">💰</span>
-                    <h2 class="auth-card__title">Expense Tracker</h2>
-                    <p class="auth-card__subtitle">Manage your finances with ease</p>
-                </div>
+      <div class="auth-container">
+        <div class="auth-card">
+          <div class="auth-card__header">
+            <span class="auth-card__logo">💰</span>
+            <h2 class="auth-card__title">Expense Tracker</h2>
+            <p class="auth-card__subtitle">Manage your finances with ease</p>
+          </div>
 
-                <!-- Login Form -->
-                <div id="login-form-container">
-                    <form id="login-form" class="auth-form" novalidate>
-                        <h3 class="auth-form__title">Login</h3>
+          <!-- Login Form -->
+          <div id="login-form-container">
+            <form id="login-form" class="auth-form" novalidate>
+              <h3 class="auth-form__title">Login</h3>
 
-                        <div class="form-group">
-                            <label for="login-email" class="form-label">Email</label>
-                            <input
-                                type="email"
-                                id="login-email"
-                                class="form-input"
-                                placeholder="Enter your email"
-                                autocomplete="email"
-                                required
-                            >
-                        </div>
+              <div class="form-group">
+                <label for="login-email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  id="login-email"
+                  class="form-input"
+                  placeholder="Enter your email"
+                  autocomplete="email"
+                  required
+                />
+              </div>
 
-                        <div class="form-group">
-                            <label for="login-password" class="form-label">Password</label>
-                            <input
-                                type="password"
-                                id="login-password"
-                                class="form-input"
-                                placeholder="Enter your password"
-                                autocomplete="current-password"
-                                required
-                            >
-                        </div>
+              <div class="form-group">
+                <label for="login-password" class="form-label">Password</label>
+                <input
+                  type="password"
+                  id="login-password"
+                  class="form-input"
+                  placeholder="Enter your password"
+                  autocomplete="current-password"
+                  required
+                />
+              </div>
 
-                        <div class="auth-error hidden" id="login-error"></div>
+              <div class="auth-error hidden" id="login-error"></div>
 
-                        <button type="submit" class="btn btn--primary btn--full" id="login-btn">
-                            Login
-                        </button>
+              <button
+                type="submit"
+                class="btn btn--primary btn--full"
+                id="login-btn"
+              >
+                Login
+              </button>
 
-                        <p class="auth-form__footer">
-                            Don't have an account?
-                            <a href="#" id="show-signup" class="auth-link">Sign Up</a>
-                        </p>
-                    </form>
-                </div>
+              <p class="auth-form__footer">
+                Don't have an account?
+                <a href="#" id="show-signup" class="auth-link">Sign Up</a>
+              </p>
+            </form>
+          </div>
 
-                <!-- Signup Form -->
-                <div id="signup-form-container" class="hidden">
-                    <form id="signup-form" class="auth-form" novalidate>
-                        <h3 class="auth-form__title">Sign Up</h3>
+          <!-- Signup Form -->
+          <div id="signup-form-container" class="hidden">
+            <form id="signup-form" class="auth-form" novalidate>
+              <h3 class="auth-form__title">Sign Up</h3>
 
-                        <div class="form-group">
-                            <label for="signup-email" class="form-label">Email</label>
-                            <input
-                                type="email"
-                                id="signup-email"
-                                class="form-input"
-                                placeholder="Enter your email"
-                                autocomplete="email"
-                                required
-                            >
-                        </div>
+              <div class="form-group">
+                <label for="signup-email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  id="signup-email"
+                  class="form-input"
+                  placeholder="Enter your email"
+                  autocomplete="email"
+                  required
+                />
+              </div>
 
-                        <div class="form-group">
-                            <label for="signup-password" class="form-label">Password</label>
-                            <input
-                                type="password"
-                                id="signup-password"
-                                class="form-input"
-                                placeholder="Create a password (min 6 characters)"
-                                autocomplete="new-password"
-                                minlength="6"
-                                required
-                            >
-                        </div>
+              <div class="form-group">
+                <label for="signup-password" class="form-label">Password</label>
+                <input
+                  type="password"
+                  id="signup-password"
+                  class="form-input"
+                  placeholder="Create a password (min 6 characters)"
+                  autocomplete="new-password"
+                  minlength="6"
+                  required
+                />
+              </div>
 
-                        <div class="form-group">
-                            <label for="signup-confirm-password" class="form-label">Confirm Password</label>
-                            <input
-                                type="password"
-                                id="signup-confirm-password"
-                                class="form-input"
-                                placeholder="Confirm your password"
-                                autocomplete="new-password"
-                                required
-                            >
-                        </div>
+              <div class="form-group">
+                <label for="signup-confirm-password" class="form-label"
+                  >Confirm Password</label
+                >
+                <input
+                  type="password"
+                  id="signup-confirm-password"
+                  class="form-input"
+                  placeholder="Confirm your password"
+                  autocomplete="new-password"
+                  required
+                />
+              </div>
 
-                        <div class="auth-error hidden" id="signup-error"></div>
+              <div class="auth-error hidden" id="signup-error"></div>
 
-                        <button type="submit" class="btn btn--primary btn--full" id="signup-btn">
-                            Sign Up
-                        </button>
+              <button
+                type="submit"
+                class="btn btn--primary btn--full"
+                id="signup-btn"
+              >
+                Sign Up
+              </button>
 
-                        <p class="auth-form__footer">
-                            Already have an account?
-                            <a href="#" id="show-login" class="auth-link">Login</a>
-                        </p>
-                    </form>
-                </div>
-            </div>
+              <p class="auth-form__footer">
+                Already have an account?
+                <a href="#" id="show-login" class="auth-link">Login</a>
+              </p>
+            </form>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- ================================================================== -->
     <!-- Main Application Section                                            -->
     <!-- ================================================================== -->
     <main class="app-section hidden" id="app-section">
-        <div class="container">
-
-            <!-- Loading State -->
-            <div class="loading-state hidden" id="loading-state">
-                <div class="spinner"></div>
-                <p class="loading-state__text">Loading transactions...</p>
-            </div>
-
-            <!-- Content Area (hidden while loading) -->
-            <div id="content-area">
-
-                <!-- ====================================================== -->
-                <!-- Summary Cards                                           -->
-                <!-- ====================================================== -->
-                <section class="summary" aria-label="Financial Summary">
-                    <!-- Balance Card -->
-                    <article class="summary-card summary-card--balance">
-                        <span class="summary-card__label">Total Balance</span>
-                        <span class="summary-amount" id="balance-amount">0</span>
-                        <span class="summary-card__currency">Toman</span>
-                    </article>
-
-                    <!-- Income & Expense Cards -->
-                    <div class="summary-row">
-                        <article class="summary-card summary-card--income">
-                            <div class="summary-card__icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-                            </div>
-                            <span class="summary-card__label">Income</span>
-                            <span class="summary-amount" id="income-amount">0</span>
-                            <span class="summary-card__currency">Toman</span>
-                        </article>
-
-                        <article class="summary-card summary-card--expense">
-                            <div class="summary-card__icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-                            </div>
-                            <span class="summary-card__label">Expenses</span>
-                            <span class="summary-amount" id="expense-amount">0</span>
-                            <span class="summary-card__currency">Toman</span>
-                        </article>
-                    </div>
-                </section>
-
-                <!-- ====================================================== -->
-                <!-- Main Content Grid                                       -->
-                <!-- ====================================================== -->
-                <div class="main-grid">
-
-                    <!-- Left Column: Form + Month List -->
-                    <div class="main-grid__left">
-
-                        <!-- Transaction Form -->
-                        <section class="card" aria-label="Transaction Form">
-                            <h2 class="card__title" id="form-title">Add Transaction</h2>
-
-                            <form id="transaction-form" novalidate>
-                                <div class="form-group">
-                                    <label for="transaction-title" class="form-label">Title</label>
-                                    <input
-                                        type="text"
-                                        id="transaction-title"
-                                        class="form-input"
-                                        placeholder="e.g., Salary, Groceries"
-                                        maxlength="200"
-                                        required
-                                    >
-                                    <span class="field-error"></span>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="transaction-description" class="form-label">
-                                        Description <span class="form-label__optional">(optional)</span>
-                                    </label>
-                                    <textarea
-                                        id="transaction-description"
-                                        class="form-input form-textarea"
-                                        placeholder="Add details..."
-                                        rows="2"
-                                        maxlength="500"
-                                    ></textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="transaction-amount" class="form-label">Amount (Toman)</label>
-                                    <input
-                                        type="text"
-                                        id="transaction-amount"
-                                        class="form-input"
-                                        placeholder="e.g., 500000"
-                                        inputmode="numeric"
-                                        required
-                                    >
-                                    <span class="field-error"></span>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label">Type</label>
-                                    <div class="type-selector" id="type-selector">
-                                        <button type="button" class="type-btn type-btn--income" data-type="income">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-                                            Income
-                                        </button>
-                                        <button type="button" class="type-btn type-btn--expense" data-type="expense">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-                                            Expense
-                                        </button>
-                                    </div>
-                                    <span class="field-error"></span>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="transaction-date" class="form-label">Date (Shamsi)</label>
-                                    <input
-                                        type="text"
-                                        id="transaction-date"
-                                        class="form-input"
-                                        placeholder="Select a date"
-                                        required
-                                    >
-                                    <span class="field-error"></span>
-                                </div>
-
-                                <div class="form-actions">
-                                    <button type="submit" class="btn btn--primary btn--full" id="form-submit-btn">
-                                        Add Transaction
-                                    </button>
-                                    <button type="button" class="btn btn--secondary btn--full hidden" id="form-cancel-btn">
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
-                        </section>
-
-                        <!-- Month List -->
-                        <section class="card" aria-label="Transaction Months">
-                            <h2 class="card__title">Months</h2>
-                            <div class="month-list" id="month-list">
-                                <!-- Months rendered by JS -->
-                            </div>
-                        </section>
-                    </div>
-
-                    <!-- Right Column: Transaction List -->
-                    <div class="main-grid__right">
-                        <section class="card" aria-label="Transaction History">
-                            <h2 class="card__title">Transaction History</h2>
-                            <div class="transaction-list" id="transaction-list">
-                                <!-- Transactions rendered by JS -->
-                            </div>
-                        </section>
-                    </div>
-
-                </div>
-            </div>
+      <div class="container">
+        <!-- Loading State -->
+        <div class="loading-state hidden" id="loading-state">
+          <div class="spinner"></div>
+          <p class="loading-state__text">Loading transactions...</p>
         </div>
+
+        <!-- Content Area (hidden while loading) -->
+        <div id="content-area">
+          <!-- ====================================================== -->
+          <!-- Summary Cards                                           -->
+          <!-- ====================================================== -->
+          <section class="summary" aria-label="Financial Summary">
+            <!-- Balance Card -->
+            <article class="summary-card summary-card--balance">
+              <span class="summary-card__label">Total Balance</span>
+              <span class="summary-amount" id="balance-amount">0</span>
+              <span class="summary-card__currency">Toman</span>
+            </article>
+
+            <!-- Income & Expense Cards -->
+            <div class="summary-row">
+              <article class="summary-card summary-card--income">
+                <div class="summary-card__icon">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="12" y1="19" x2="12" y2="5" />
+                    <polyline points="5 12 12 5 19 12" />
+                  </svg>
+                </div>
+                <span class="summary-card__label">Income</span>
+                <span class="summary-amount" id="income-amount">0</span>
+                <span class="summary-card__currency">Toman</span>
+              </article>
+
+              <article class="summary-card summary-card--expense">
+                <div class="summary-card__icon">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <polyline points="19 12 12 19 5 12" />
+                  </svg>
+                </div>
+                <span class="summary-card__label">Expenses</span>
+                <span class="summary-amount" id="expense-amount">0</span>
+                <span class="summary-card__currency">Toman</span>
+              </article>
+            </div>
+          </section>
+
+          <!-- ====================================================== -->
+          <!-- Main Content Grid                                       -->
+          <!-- ====================================================== -->
+          <div class="main-grid">
+            <!-- Left Column: Form + Month List -->
+            <div class="main-grid__left">
+              <!-- Transaction Form -->
+              <section class="card" aria-label="Transaction Form">
+                <h2 class="card__title" id="form-title">Add Transaction</h2>
+
+                <form id="transaction-form" novalidate>
+                  <div class="form-group">
+                    <label for="transaction-title" class="form-label"
+                      >Title</label
+                    >
+                    <input
+                      type="text"
+                      id="transaction-title"
+                      class="form-input"
+                      placeholder="e.g., Salary, Groceries"
+                      maxlength="200"
+                      required
+                    />
+                    <span class="field-error"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="transaction-description" class="form-label">
+                      Description
+                      <span class="form-label__optional">(optional)</span>
+                    </label>
+                    <textarea
+                      id="transaction-description"
+                      class="form-input form-textarea"
+                      placeholder="Add details..."
+                      rows="2"
+                      maxlength="500"
+                    ></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="transaction-amount" class="form-label"
+                      >Amount (Toman)</label
+                    >
+                    <input
+                      type="text"
+                      id="transaction-amount"
+                      class="form-input"
+                      placeholder="e.g., 500000"
+                      inputmode="numeric"
+                      required
+                    />
+                    <span class="field-error"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">Type</label>
+                    <div class="type-selector" id="type-selector">
+                      <button
+                        type="button"
+                        class="type-btn type-btn--income"
+                        data-type="income"
+                      >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <line x1="12" y1="19" x2="12" y2="5" />
+                          <polyline points="5 12 12 5 19 12" />
+                        </svg>
+                        Income
+                      </button>
+                      <button
+                        type="button"
+                        class="type-btn type-btn--expense"
+                        data-type="expense"
+                      >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <line x1="12" y1="5" x2="12" y2="19" />
+                          <polyline points="19 12 12 19 5 12" />
+                        </svg>
+                        Expense
+                      </button>
+                    </div>
+                    <span class="field-error"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="transaction-date" class="form-label"
+                      >Date (Shamsi)</label
+                    >
+                    <input
+                      type="text"
+                      id="transaction-date"
+                      class="form-input"
+                      placeholder="Select a date"
+                      required
+                    />
+                    <span class="field-error"></span>
+                  </div>
+
+                  <div class="form-actions">
+                    <button
+                      type="submit"
+                      class="btn btn--primary btn--full"
+                      id="form-submit-btn"
+                    >
+                      Add Transaction
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn--secondary btn--full hidden"
+                      id="form-cancel-btn"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </section>
+
+              <!-- Month List -->
+              <section class="card" aria-label="Transaction Months">
+                <h2 class="card__title">Months</h2>
+                <div class="month-list" id="month-list">
+                  <!-- Months rendered by JS -->
+                </div>
+              </section>
+            </div>
+
+            <!-- Right Column: Transaction List -->
+            <div class="main-grid__right">
+              <section class="card" aria-label="Transaction History">
+                <h2 class="card__title">Transaction History</h2>
+                <div class="transaction-list" id="transaction-list">
+                  <!-- Transactions rendered by JS -->
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <!-- ================================================================== -->
     <!-- Scripts (ES Module Entry Point)                                     -->
     <!-- ================================================================== -->
     <script type="module" src="js/app.js"></script>
-
-</body>
+  </body>
 </html>
