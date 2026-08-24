@@ -16,5 +16,5 @@
 //   - All data security is enforced by Row Level Security (RLS).
 // ============================================================
 
-const SUPABASE_URL = "https://your-project-id.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "your-anon-key-here";
+export const SUPABASE_URL = "https://your-project-id.supabase.co";
+export const SUPABASE_PUBLISHABLE_KEY = "your-anon-key-here";
